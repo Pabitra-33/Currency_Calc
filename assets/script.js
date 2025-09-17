@@ -15,24 +15,22 @@ spinner.style.textAlign = "center";
 spinner.style.color = "#0077ff";
 document.querySelector(".converter").appendChild(spinner);
 
-
-// Fetch currency rates and populate dropdowns
-
+// Load currencies from API
 async function loadCurrencies() {
   try {
     spinner.style.display = "block"; // Show spinner
-    const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");// Using a free API for exchange rates
+    const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");// Using USD as base
     if (!res.ok) throw new Error("Failed to fetch exchange rates.");
     const data = await res.json();
     ratesData = data.rates;
 
-    // Populate dropdowns
+    // Populate dropdowns with currency codes
     Object.keys(ratesData).forEach(code => {
       fromCurrency.innerHTML += `<option value="${code}">${code}</option>`;
       toCurrency.innerHTML += `<option value="${code}">${code}</option>`;
     });
 
-    // Load last used values from localStorage
+    // Load last used values from localStorage if available
     const savedFrom = localStorage.getItem("fromCurrency") || "USD";
     const savedTo = localStorage.getItem("toCurrency") || "INR";
     const savedAmount = localStorage.getItem("amount") || "";
@@ -48,7 +46,7 @@ async function loadCurrencies() {
   }
 }
 
-// Conversion logic
+// Convert function
 convertBtn.addEventListener("click", () => {
   const amount = amountInput.value;
 
