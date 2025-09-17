@@ -3,39 +3,60 @@ const fromCurrency = document.getElementById("from-currency");
 const toCurrency = document.getElementById("to-currency");
 const convertBtn = document.getElementById("convert");
 const result = document.getElementById("result");
+const amountInput = document.getElementById("amount");
 
 let ratesData = {}; // To store fetched currency rates
+
+// Spinner element
+const spinner = document.createElement("div");
+spinner.innerText = "⏳ Loading exchange rates...";
+spinner.style.display = "none";
+spinner.style.textAlign = "center";
+spinner.style.color = "#0077ff";
+document.querySelector(".converter").appendChild(spinner);
+
 
 // Fetch currency rates and populate dropdowns
 
 async function loadCurrencies() {
   try {
-    const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");// Using a free currency API
+    spinner.style.display = "block"; // Show spinner
+    const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");// Using a free API for exchange rates
+    if (!res.ok) throw new Error("Failed to fetch exchange rates.");
     const data = await res.json();
     ratesData = data.rates;
 
-    // Populate dropdowns with currency codes
+    // Populate dropdowns
     Object.keys(ratesData).forEach(code => {
       fromCurrency.innerHTML += `<option value="${code}">${code}</option>`;
       toCurrency.innerHTML += `<option value="${code}">${code}</option>`;
     });
 
-    fromCurrency.value = "USD";
-    toCurrency.value = "INR";
+    // Load last used values from localStorage
+    const savedFrom = localStorage.getItem("fromCurrency") || "USD";
+    const savedTo = localStorage.getItem("toCurrency") || "INR";
+    const savedAmount = localStorage.getItem("amount") || "";
+
+    fromCurrency.value = savedFrom;
+    toCurrency.value = savedTo;
+    amountInput.value = savedAmount;
+
   } catch (error) {
-    result.innerText = "⚠️ Error loading currency data!";// Error handling
+    result.innerText = `⚠️ ${error.message}`;
+  } finally {
+    spinner.style.display = "none"; // Hide spinner
   }
 }
 
-// Conversion logic on button click
+// Conversion logic
 convertBtn.addEventListener("click", () => {
-  const amount = document.getElementById("amount").value;
+  const amount = amountInput.value;
+
   if (!amount || amount <= 0) {
-    result.innerText = "⚠️ Please enter a valid amount."; // Input validation
+    result.innerText = "⚠️ Please enter a valid amount.";
     return;
   }
 
-  // Get rates for selected currencies
   const fromRate = ratesData[fromCurrency.value];
   const toRate = ratesData[toCurrency.value];
 
@@ -44,9 +65,13 @@ convertBtn.addEventListener("click", () => {
     return;
   }
 
-  // Perform conversion
   const converted = (amount / fromRate) * toRate;
   result.innerText = `${amount} ${fromCurrency.value} = ${converted.toFixed(2)} ${toCurrency.value}`;
+
+  // Save preferences in localStorage
+  localStorage.setItem("fromCurrency", fromCurrency.value);
+  localStorage.setItem("toCurrency", toCurrency.value);
+  localStorage.setItem("amount", amount);
 });
 
 // Load currencies on page load
