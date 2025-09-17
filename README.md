@@ -46,13 +46,21 @@ It allows users to convert between multiple international currencies with real-t
   <br>
   
 ## 📸 Screenshots
+<h3 align="center"> This is our app Home Page.</h3> <br>
 
+![App Screenshot](calculatorHome.png)
+<br>
+
+<hr>
+<h3 align="center"> This is our app Currency Conversion Page.</h3> <br>
+
+![App Screenshot](conversionCalculation.png)
 
 <br>
 
 ## 🔮 Future Enhancements
 
-- 📊 Add historical currency trends with Chart.js
+- 📊 Adding historical currency trends with Chart.js
 
 - 🌐 Multi-language support
 
@@ -64,6 +72,7 @@ It allows users to convert between multiple international currencies with real-t
 ## 🤝 Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to change.
 <br>
+
 
 ## 👨‍💻 Author
 Developed by Pabitra Kumar Sahoo ✨
