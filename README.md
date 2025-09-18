@@ -48,13 +48,13 @@ It allows users to convert between multiple international currencies with real-t
 ## 📸 Screenshots
 <h3 align="center"> This is our app Home Page.</h3> <br>
 
-![App Screenshot](calculatorHome.png)
+![App Screenshot](currencycalc-home.png)
 <br>
 
 <hr>
 <h3 align="center"> This is our app Currency Conversion Page.</h3> <br>
 
-![App Screenshot](conversionCalculation.png)
+![App Screenshot](currencyconversion.png)
 
 <br>
 
